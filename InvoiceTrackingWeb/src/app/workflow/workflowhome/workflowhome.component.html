@@ -1,0 +1,168 @@
+<div class="container-fluid">	
+		
+        <ol class="breadcrumb">
+                <li style="width:100%;">
+                  <div class="row">
+                    <div class="col-md-11"><h5>Department </h5></div>
+                    </div>
+                </li>
+              </ol>
+
+	<fieldset class="scheduler-border">
+    <legend class="scheduler-border"><h5>Workflow Process</h5></legend>
+		<div class="row" *ngIf="homeView">
+			<div class="col-md-12">
+			   <fieldset class="scheduler-border">
+    <legend class="scheduler-border in-hd">Filters</legend>
+		<div class="row">
+			<div class=col-md-12>
+			<table border="0">
+			<tr>
+				<td>
+				
+					<table class="tr-btm mk-sp">
+					<tr>
+						<td><label class="mr-sm-2" for="inlineFormCustomSelect">Role</label></td>
+						<td>
+							<select class="custom-select mb-2 mr-sm-2 mb-sm-0 sel-size" id="inlineFormCustomSelect">
+				    <option value="3">Department User</option>
+				    <option selected>Credit Clerk</option>
+				    <option value="1">Account</option>
+				    <option value="2">Chef Account</option>				    
+				  </select>	
+						</td>
+						
+					</tr>
+					
+					<tr>
+						<td><label class="mr-sm-2" for="inlineFormCustomSelect">Status</label></td>
+						<td>
+							<select class="custom-select mb-2 mr-sm-2 mb-sm-0 sel-size" id="lblStatus">
+				    <option value="3">Saved</option>
+				    <option selected>Approved</option>
+				    <option value="1">rejected</option>
+				    <option value="2">Not Paid</option>				    
+				    <option value="2">Paid</option>
+				  </select>
+						</td>
+					<td>
+						
+					
+					</td>
+						
+					</tr>
+					
+				</table>		
+				</td>
+				<td>
+				<fieldset class="scheduler-border mk-sp">
+    			<legend class="scheduler-border st-fld">Submitted Date</legend>
+					<table>					
+					<tr>
+						<td>From</td>
+						<td>
+							<input type="text" name="DocumentType" class="form-control"/>
+						</td>
+					</tr>
+					<tr>
+						<td>To</td>
+						<td>
+								<input type="text" name="DocumentType" class="form-control"/>
+						</td>
+					</tr>
+				</table>
+				</fieldset>
+				</td>
+				
+				<!-- Part 3 -->
+				<td>
+					<table class="mk-sp">					
+					<tr>
+						<td>Supplier Name</td>
+						<td>
+							<input type="text" name="DocumentType" class="form-control"/>
+						</td>
+					</tr>
+					<tr>
+						<td>Invoice Number</td>
+						<td>
+								<input type="text" name="DocumentType" class="form-control"/>
+						</td>
+					</tr>
+				</table>
+				</td>
+				
+				<!-- Part 4 -->
+				<td>
+					<table>					
+					<tr>
+						
+						<td>
+							<div class="btn btn-md btn-success pull-right" style="width:100px; margin-left:10px;">Search</div>
+						</td>
+					</tr>
+					
+				</table>
+				</td>
+				
+			</tr>
+			</table>
+									
+		</div>
+											
+		</div>
+	</fieldset>
+			</div>
+	
+	<div class="col-md-12 tsk-sz">
+		<fieldset class="scheduler-border">
+    <legend class="scheduler-border in-hd">Tasks</legend>
+			<div class="row">
+			<div class="col-md-12">
+				<table></table>
+					<table  border="0" class="table table-sm">
+						<thead class="th-head">
+							<tr style="height:36px;vertical-align:middle;">
+								<th style="width: 20px;">Invoice Number</th>
+								<th>Supplier Name</th>
+								<th>Invoice Amount</th>
+								<th>PO Number</th>
+								<th>Invoice Date</th>
+								<th>Submission Date</th>
+								<th>Status</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let item of DeptInvoices | orderBy: criteria : direction | paginate: {itemsPerPage:pageSize, currentPage: currentPage ,totalItems: count}">
+								<td>{{item.InvoiceNumber}}</td>
+								<td>{{item.Supplier.Name}}</td>
+								<td class="right">{{item.InvoiceAmount ? (item.InvoiceAmount | currencyFormat) : 'R0.00'}}</td>
+								<td>{{item.PurchaseOrder.PONumber}}</td>
+								<td>{{item.InvoiceDate | date:'y/MM/dd'}}</td>
+								<td>{{item.SubmissionDate | date:'y/MM/dd'}}</td>
+								<td>New</td>
+								<td style="width:115px;border:0px;">
+								<div>
+									<button (click)="taskForward(item)" class="btn btn-primary btn-sm"><i class="fa fa-list" aria-hidden="true"></i></button>
+								</div>
+							</td>
+							</tr>
+						</tbody>
+					</table>
+			</div>
+		
+			</div>
+		</fieldset>
+	</div>
+		</div>
+
+<!-- Represents a child component but this must be implemented in another component -->
+<div class="row" *ngIf="!homeView">
+<div class="col-md-12">
+	<view-invoice [invoice]="invoice" ></view-invoice>
+	<!--<app-homecompliancechecklist [invoice]="invoice"></app-homecompliancechecklist>-->
+		</div>
+		
+		</div>
+	</fieldset>
+</div>

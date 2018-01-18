@@ -1,0 +1,107 @@
+<div class="container-fluid">
+  <div class="breadcrumb">
+    <div class="row">
+        <div class="col-md-11">{{lblHeading}} <strong class="text-primary">{{inv.InvoiceNumber}}</strong></div>
+        <div class="col-md-1  btn-back"><a (click)="navigate()"><i class="fa fa-arrow-circle-left fa-2x text-primary" aria-hidden="true"></i></a></div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="col-md-12" *ngIf="isLoading">          
+        <app-busy [message]="message"></app-busy>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" >
+      <input type="hidden" formControlName="ID" name="ID" />    
+      <fieldset class="scheduler-border">
+        <legend class="scheduler-border">Invoice Details</legend>   
+        <div class="col-md-12">
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="col-md-12">
+                <div>
+                  <label class="col-sm-12 control-label"><strong>Invoice Number</strong></label>
+                  <div class="col-sm-10">
+                    <input class="form-control" type="text"  value="{{inv.InvoiceNumber}}" readonly>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="col-md-12">
+                <div>
+                  <label class="col-sm-12 control-label"><strong>Invoice Amount</strong></label>
+                  <div class="col-sm-10">
+                    <input class="form-control" type="text" value="{{inv.InvoiceAmount | currencyFormat}}" readonly>                
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="col-md-12">
+                <div>
+                  <label class="col-sm-12 control-label"><strong>Invoice Date</strong></label>
+                  <div class="col-sm-10">
+                    <input class="form-control" type="text"  value="{{inv.InvoiceDate | date:'y/MM/dd'}}" readonly>                
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <div class="col-md-12">
+                <input type="hidden" formControlName="ID" name="ID" />
+                <div class="form-group">
+                  <label class="col-sm-12 control-label"><strong>Invoice Status*</strong></label>
+                  <div class="col-md-9">
+                    <select name="InvoiceStatus" formControlName="InvoiceStatus" class="selectpicker form-control" [ngClass]="{'error':form.controls.InvoiceStatus.invalid && form.controls.InvoiceStatus.dirty, 'noerror': form.controls.InvoiceStatus.valid && form.controls.InvoiceStatus.dirty}">
+                        <option hidden disabled selected [value]=inv.Status>{{inv.Status}}</option>  
+                        <option *ngFor="let opt of options">{{opt}}</option>
+                      </select>
+                    <div class="form-control-feedback text-danger text-small" *ngIf="form.controls.InvoiceStatus.invalid && form.controls.InvoiceStatus.dirty">
+                      <p *ngIf="form.controls.InvoiceStatus.errors.required">Invoice Status is required</p>
+                      <p *ngIf="form.controls.InvoiceStatus.errors.maxlength">Invoice Status must not be more than 12 characters long</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="col-sm-12 control-label"><strong>Notes</strong></label>
+                  <div class="col-sm-10">
+                    <textarea name="Note" formControlName="Note" class="form-control" rows="6"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+              <div class="col-md-12 col-md-offset-2">
+                <button type="submit" [disabled]="!form.valid" class="btn btn-primary btn-sm" style="width:80px; float:right;">Update</button>
+              </div>
+          </div>
+        </div>
+      </fieldset> 
+    </form>
+    <fieldset class="scheduler-border">
+      <legend class="scheduler-border">Previous Notes</legend>
+      <table border="0" style="margin:20px auto;width:94%;" class="table table-sm">
+        <thead class="th-head" style="">
+          <tr style="height:30px;">
+            <th style="vertical-align:middle;text-align:left;width:20%">Date</th>
+            <th style="vertical-align:middle;text-align:left">Notes</th>
+            <th style="vertical-align:middle;text-align:left;width:30%">Created by</th>
+          </tr>
+        </thead>
+        <tr *ngFor="let note of notes | paginate: { itemsPerPage: pageSize, currentPage: page} ">
+          <td style="vertical-align:middle;text-align:left;">{{note.DateCreated | date: 'dd/MM/yyyy'}}</td>
+          <td style="vertical-align:middle;text-align:left;">{{note.Notes}}</td>
+          <td style="vertical-align:middle;text-align:left;">{{note.UserCreated}}</td>
+        </tr>
+        <tr *ngIf="notes.length > 4">
+            <td colspan="3">
+              <pagination-controls (pageChange)="page = $event" style="margin:0px;padding:0px;" (click)="onNext(page)"></pagination-controls>
+            </td>
+        </tr>
+      </table>
+    </fieldset>
+  </div>
+</div>
+
+ 

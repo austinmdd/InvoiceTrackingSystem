@@ -1,0 +1,46 @@
+<div class="container-fluid">
+  <div class="col-md-12" *ngIf="isLoading">          
+    <app-busy [message]="message"></app-busy>
+  </div>
+  <ol class="breadcrumb">
+    <li style="width:100%;">
+      <div class="row">
+        <h5 class="col-md-11"><strong>{{lblHeading}}</strong></h5>
+        <span class="col-md-1 btn-back"><a [routerLink]="['/invoicecategory']"><i class="fa fa-arrow-circle-left fa-2x" aria-hidden="true"></i></a></span>
+      </div>
+      </li>
+</ol>
+  <div class="card-body">
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="center-form">
+      <input type="hidden" formControlName="ID" name="ID" />
+      <div class="form-group">
+        <label for="supplierName" class="control-label col-md-4"><strong style="font-size:12px;">Invoice Category*</strong></label>
+        <div class="col-md-9">
+          <input type="text" name="InvoiceCategory" formControlName="InvoiceCategory" class="form-control" [ngClass]="{'error':form.controls.InvoiceCategory.invalid && form.controls.InvoiceCategory.dirty, 'noerror': form.controls.InvoiceCategory.valid && form.controls.InvoiceCategory.dirty}" />
+          <div class="form-control-feedback text-danger text-small" *ngIf="form.controls.InvoiceCategory.invalid && form.controls.InvoiceCategory.dirty">
+            <p *ngIf="form.controls.InvoiceCategory.errors.required">Invoice category is required</p>
+            <p *ngIf="form.controls.InvoiceCategory.errors.maxlength">Invoice category must not be more than 12 characters long</p>
+          </div>
+          <p *ngIf="isDup" class="text-danger">Duplicate invoice categories are not allowed</p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="amount" class="control-label col-md-4"><strong style="font-size:12px;">Description*</strong></label>
+        <div class="col-md-9">
+          <textarea name="Description" formControlName="Description" class="form-control" [ngClass]="{'error':form.controls.Description.invalid && form.controls.Description.dirty, 'noerror': form.controls.Description.valid && form.controls.Description.dirty}"></textarea>
+          <div class="form-control-feedback text-danger text-small" *ngIf="form.controls.Description.invalid && form.controls.Description.dirty">
+            <p *ngIf="form.controls.Description.errors.required">Description is required</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-md-6 col-md-offset-2">
+          <button type="submit" [disabled]="!form.valid" class="btn btn-primary btn-sm" style="width:80px;">{{btnActionLabel}}</button>
+        </div>
+      </div>
+    </form>
+
+  </div>
+</div>

@@ -1,0 +1,27 @@
+input[type="file"] {
+    display: none;
+}
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+tables {
+    width:100%;
+    table-layout: fixed;
+    word-wrap: break-word;
+}
+
+
+tables td, 
+tables th {
+    white-space: nowrap !important;
+  
+}
+
+tfoot td{
+    background: rgb(136, 136, 136);
+    text-align:center;
+}

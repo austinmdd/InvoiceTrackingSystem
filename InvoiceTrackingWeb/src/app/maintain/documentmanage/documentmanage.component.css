@@ -1,0 +1,8 @@
+.error{
+  border-collapse:collapse;
+  border-color:red;
+}
+.noerror {
+  border-collapse: collapse;
+  border-color: green;
+}

@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Invoice Tracking System</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">  
+</head>
+<body>       
+ <app-root>
+   <style>
+     .pre-bootstrap {
+       position: absolute;
+       left: calc(50% - 30px);
+       top: calc(50% - 50px);
+     }
+
+     .pre-bootstrap-text {
+       line-height: 20px;
+       margin-bottom: 20px;
+       font-family: Roboto,"Helvetica Neue",sans-serif;
+     }
+     .title {
+       color: #0066FF;
+     }
+
+     .pre-bootstrap-spinner {
+       width: 100px;
+       height: 100px;
+       background-color: #0066FF;       
+       -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
+       animation: sk-rotateplane 1.2s infinite ease-in-out;
+     }
+
+     @-webkit-keyframes sk-rotateplane {
+       0% {
+         -webkit-transform: perspective(120px)
+       }
+
+       50% {
+         -webkit-transform: perspective(120px) rotateY(180deg)
+       }
+       100% {
+         -webkit-transform: perspective(120px) rotateY(180deg) rotateX(180deg)
+       }
+     }
+
+     @keyframes sk-rotateplane {
+       0% {
+         transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+         -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg)
+       }
+
+       50% {
+         transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+         -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg)
+       }
+
+       100% {
+         transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+         -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+       }
+     }
+   </style>
+   <div class="pre-bootstrap">
+     <div class="pre-bootstrap-text"><h4 class="title">Processing...<sup><strong>(ITS)</strong></sup></h4></div>
+     <div class="pre-bootstrap-spinner"></div>
+   </div>
+ </app-root>  
+</body>
+</html>

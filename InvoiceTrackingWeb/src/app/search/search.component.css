@@ -1,0 +1,30 @@
+.upper {
+  text-transform:uppercase;  
+}
+.size {
+  width: 60%;
+}
+.size-1{
+  width:30px;
+}
+.size-L {
+  width: 120px;
+}
+.alignL{
+  /*margin-left:8px;*/
+  width:42px;
+}
+
+.isClicked{
+  font-weight:bold;
+  color:darkblue;
+}
+
+.centrer{
+  text-align:center;
+}
+
+.right{
+  text-align:right;
+}
+

@@ -1,0 +1,44 @@
+<div class="container-fluid">
+  
+    <ol class="breadcrumb">
+      <li style="width:100%;">
+        <div class="row">
+          <div class="col-md-11"><h5>{{lblHeading}}</h5></div>
+          <div class="col-md-1 btn-back"><a [routerLink]="['/doctypes']"><i class="fa fa-arrow-circle-left fa-2x" aria-hidden="true"></i></a></div>
+        </div>
+      </li>
+    </ol>
+    <div class="card-body">
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="center-form">
+        <input type="hidden" formControlName="ID" name="ID" />
+        <div class="form-group">
+          <label for="supplierName" class="control-label col-md-4"><strong style="font-size:12px;">Document Type*</strong></label>
+          <div class="col-md-9">
+            <input type="text" name="DocumentType" formControlName="DocumentType" class="form-control" [ngClass]="{'error':form.controls.DocumentType.invalid && form.controls.DocumentType.dirty, 'noerror': form.controls.DocumentType.valid && form.controls.DocumentType.dirty}" />
+            <div class="form-control-feedback text-danger text-small" *ngIf="form.controls.DocumentType.invalid && form.controls.DocumentType.dirty">
+              <p *ngIf="form.controls.DocumentType.errors.required">Document type is required</p>
+              <p *ngIf="form.controls.DocumentType.errors.maxlength">Document type must not be more than 12 characters long</p>
+            </div>
+            <p *ngIf="isDup" class="text-danger">Duplicate document types are not allowed</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="amount" class="control-label col-md-4"><strong style="font-size:12px;">Description*</strong></label>
+          <div class="col-md-9">
+            <textarea name="Description" formControlName="Description" class="form-control" [ngClass]="{'error':form.controls.Description.invalid && form.controls.Description.dirty, 'noerror': form.controls.Description.valid && form.controls.Description.dirty}"></textarea>
+            <div class="form-control-feedback text-danger text-small" *ngIf="form.controls.Description.invalid && form.controls.Description.dirty">
+              <p *ngIf="form.controls.Description.errors.required">Description is required</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-md-6 col-md-offset-2">
+            <button type="submit" [disabled]="!form.valid" class="btn btn-primary btn-sm" style="width:80px;">{{btnActionLabel}}</button>
+          </div>
+        </div>
+      </form>
+
+    </div>
+</div>

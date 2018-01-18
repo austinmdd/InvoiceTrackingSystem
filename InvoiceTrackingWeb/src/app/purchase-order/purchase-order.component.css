@@ -1,0 +1,17 @@
+.error{
+    border-collapse:collapse;
+    border-color:red;
+  }
+  .noerror {
+    border-collapse: collapse;
+    border-color: green;
+  }
+
+  .disabled {
+    -webkit-touch-callout:none;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+  }
+  

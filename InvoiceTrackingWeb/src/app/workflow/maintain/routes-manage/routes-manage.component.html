@@ -1,0 +1,110 @@
+<div class="container-fluid">
+  <div class="col-md-12" *ngIf="isLoading">          
+    <app-busy [message]="message"></app-busy>
+  </div>
+  <ol class="breadcrumb">
+    <li style="width:100%;">
+      <div class="row">
+        <h5 class="col-md-11"><strong>{{lblHeading}}</strong></h5>
+        <span class="col-md-1 btn-back"><a [routerLink]="['/routes']"><i class="fa fa-arrow-circle-left fa-2x" aria-hidden="true"></i></a></span>
+      </div>
+      </li>
+</ol>
+<div *ngIf="isEdit">
+  <div class="card-body">
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="center-form">
+      <input type="hidden" formControlName="ID" name="ID" />
+    
+      <div class="form-group">
+        <label for="invCat" class="control-label"><strong style="margin-right:4px;">Select Role From: </strong></label>
+        <select formControlName="wrkRolefrom" name= "wrkRolefrom" class="form-control" id="wrkRolefrom"  [(ngModel)]="viewruts.RoleFromName" >
+          
+          <option *ngFor="let ro of roles" [ngValue]="ro.ID">{{ro.Description}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="invCat" class="control-label"><strong style="margin-right:4px;">Select Role To: </strong></label>
+        <select formControlName="wrkRoleto" class="form-control" id="wrkRoleto" (change)="onChange()" >
+         
+          <option *ngFor="let roc of roles" [ngValue]="roc.ID">{{roc.Description}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="invCat" class="control-label"><strong style="margin-right:4px;">Select Status: </strong></label>
+        <select formControlName="wrkStatus" class="form-control" id="wrkStatus" (change)="onChange()" >
+          
+          <option *ngFor="let stat of statuses" [ngValue]="stat.ID">{{stat.Description}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="invCat" class="control-label"><strong style="margin-right:4px;">Select Action: </strong></label>
+        <select formControlName="wrkAction" class="form-control" id="wrkAction"  (change)="onChange()" >
+         
+          <option *ngFor="let act of routeactions" [ngValue]="act.ID">{{act.RouteName}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <div class="col-md-6 col-md-offset-2">
+          <button type="submit" [disabled]="!form.valid" class="btn btn-primary btn-sm" style="width:80px;">{{btnActionLabel}}</button>
+        </div>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+
+
+<div *ngIf="!isEdit">
+  <div class="card-body">
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="center-form">
+      <input type="hidden" formControlName="ID" name="ID" />
+    
+      <div class="form-group">
+        <label for="invCat" class="control-label"><strong style="margin-right:4px;">Select Role From: </strong></label>
+        <select formControlName="wrkRolefrom" class="form-control" id="wrkRolefrom"  (change)="onChange()" >
+          <option [ngValue]="null" disabled>Choose your Role From </option>
+          <option *ngFor="let ro of roles" [ngValue]="ro.ID">{{ro.Description}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="invCat" class="control-label"><strong style="margin-right:4px;">Select Role To: </strong></label>
+        <select formControlName="wrkRoleto" class="form-control" id="wrkRoleto" (change)="onChange()" >
+          <option [ngValue]="null" disabled>Choose your Role To </option>
+          <option *ngFor="let roc of roles" [ngValue]="roc.ID">{{roc.Description}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="invCat" class="control-label"><strong style="margin-right:4px;">Select Status: </strong></label>
+        <select formControlName="wrkStatus" class="form-control" id="wrkStatus" (change)="onChange()" >
+          <option [ngValue]="null" disabled>Choose your Status </option>
+          <option *ngFor="let stat of statuses" [ngValue]="stat.ID">{{stat.Description}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="invCat" class="control-label"><strong style="margin-right:4px;">Select Action: </strong></label>
+        <select formControlName="wrkAction" class="form-control" id="wrkAction"  (change)="onChange()" >
+          <option [ngValue]="null" disabled>Choose your Action </option>
+          <option *ngFor="let act of routeactions" [ngValue]="act.ID">{{act.RouteName}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <div class="col-md-6 col-md-offset-2">
+          <button type="submit" [disabled]="!form.valid" class="btn btn-primary btn-sm" style="width:80px;">{{btnActionLabel}}</button>
+        </div>
+      </div>
+    </form>
+
+  </div>
+</div>
+</div>
+
+

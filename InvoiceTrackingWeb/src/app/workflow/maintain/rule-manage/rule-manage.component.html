@@ -1,0 +1,37 @@
+<div class="container-fluid">
+    <div class="col-md-12" *ngIf="isLoading">          
+      <app-busy [message]="message"></app-busy>
+    </div>
+    <ol class="breadcrumb">
+      <li style="width:100%;">
+        <div class="row">
+          <h5 class="col-md-11"><strong>{{lblHeading}}</strong></h5>
+          <span class="col-md-1 btn-back"><a [routerLink]="['/checklist']"><i class="fa fa-arrow-circle-left fa-2x" aria-hidden="true"></i></a></span>
+        </div>
+        </li>
+  </ol>
+    <div class="card-body">
+  
+      <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="center-form">
+        <input type="hidden" formControlName="ID" name="ID" />
+        <div class="form-group">
+          <label for="rulName" class="control-label col-md-4"><strong style="font-size:12px;">Checklist*</strong></label>
+          <div class="col-md-9">
+            <input type="text" name="ChecklistName" formControlName="ChecklistName" class="form-control" [ngClass]="{'error':form.controls.ChecklistName.invalid && form.controls.ChecklistName.dirty, 'noerror': form.controls.ChecklistName.valid && form.controls.ChecklistName.dirty}" />
+            <div class="form-control-feedback text-danger text-small" *ngIf="form.controls.ChecklistName.invalid && form.controls.ChecklistName.dirty">
+              <p *ngIf="form.controls.ChecklistName.errors.required">Compliance Checklist Name is required</p>
+              <p *ngIf="form.controls.ChecklistName.errors.maxlength">Compliance Checklist Name  must not be more than 50 characters long</p>
+            </div>
+            <p *ngIf="isDup" class="text-danger">Duplicate Compliance Checklist Names are not allowed</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-md-6 col-md-offset-2">
+            <button type="submit" [disabled]="!form.valid" class="btn btn-primary btn-sm" style="width:80px;">{{btnActionLabel}}</button>
+          </div>
+        </div>
+      </form>
+  
+    </div>
+  </div>
+  

@@ -1,0 +1,106 @@
+<div class="container-fluid">
+
+  <ol class="breadcrumb">
+    <li style="width:100%;">
+      <div class="row">
+        <div class="col-md-11"><h5>Links between Document Types and Invoice Categories </h5></div>
+        <div class="col-md-1 btn-back"><a [routerLink]="['/']"><i class="fa fa-arrow-circle-left fa-2x" aria-hidden="true"></i></a></div>
+      </div>
+    </li>
+  </ol>
+
+  <div class="row" *ngIf="isEdit">
+    <div class="col-md-12" style="margin:20px 0px 20px 0px;">
+      <fieldset class="scheduler-border">
+        <legend class="scheduler-border">Edit Document type <strong class="text-primary">{{doctype}}</strong> linked to <strong class="text-info">{{selectedCat.InvoiceCategory}}</strong></legend>
+        <table style="width:70%;" border="0" class="table table-sm">
+          <thead class="th-head">
+            <tr style="height:36px;vertical-align:middle;">
+              <th style="width:50%;">Document Type</th>
+              <th>Mandatory</th>
+              <th>Optional</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{refLink.DocumentType}}</td>
+              <td><input type="radio" name="TP" (click)="onUpdateCheck(1)" value="M" [checked]="refLink.Mandatory" class="radio" /></td>
+              <td><input type="radio" name="TP" (click)="onUpdateCheck(2)" value="O" [checked]="refLink.Optional" /></td>
+              <td style="width:80px;"><button [disabled]="!isChecked" type="submit" class="btn btn-primary btn-md" style="width:80px;" (click)="onUpdateLink()"><strong>Update</strong></button></td>
+              <td style="width:80px;"><button type="submit" class="btn btn-md btn-info " style="width:80px;" (click)="onCancel()"><strong>Cancel</strong></button></td>
+            </tr>
+          </tbody>
+        </table>
+        </fieldset>
+</div>
+  </div>
+
+  <app-busy [message]="message" style="z-index:20000;position:relative;" *ngIf="isActivated"></app-busy>
+
+    <div class="row" *ngIf="!isEdit">
+      <div class="col-md-12" style="margin-bottom:20px;">
+        <div class="form-inline">
+          <div class="form-group">
+            <label for="invCat" class="control-label"><strong style="margin-right:4px;">Select an invoice category: </strong></label>
+            <select class="form-control" id="invCat" [(ngModel)]="selectedCat" (change)="onChange()" >
+              <!--<option [ngValue]="null" >Select an invoice category</option>-->
+              <option *ngFor="let cat of categories" [ngValue]="cat">{{cat.InvoiceCategory}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <fieldset class="scheduler-border">
+          <legend class="scheduler-border">Document type(s) not linked to <strong class="text-info">{{selectedCat.InvoiceCategory}}</strong></legend>
+          <table style="width:100%;" border="0">
+            <tr style="vertical-align:top;">
+              <td style="width:88%;">
+                <table style="width:100%;" border="0" class="table table-sm">
+                  <thead class="th-head">
+                    <tr style="height:36px;vertical-align:middle;">
+                      <th style="width:70%;">Document Type</th>
+                      <th>Mandatory</th>
+                      <th>Optional</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let unlinked of doctypes.unlinked">
+                      <td>{{unlinked.DocumentType}}</td>
+                      <td><input type="radio" name="{{unlinked.ID}}" (click)="onCheck(unlinked.ID,1)" /></td>
+                      <td><input type="radio" name="{{unlinked.ID}}" (click)="onCheck(unlinked.ID,2)" /></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+              <td class="text-center">
+                <button [disabled]="!isChecked" type="submit" class="btn btn-primary btn-md" style="width:78px;height:36px;" (click)="OnSaveLinks()"><i class="fa fa-link" aria-hidden="true"></i><strong> Link</strong></button>
+              </td>
+            </tr>
+          </table>
+        </fieldset>
+      </div>
+      <div class="col-md-6">
+        <fieldset class="scheduler-border">
+          <legend class="scheduler-border">Document type(s) linked to <strong class="text-info">{{selectedCat.InvoiceCategory}}</strong></legend>
+          <table style="width:100%;" border="0" class="table table-sm">
+            <thead class="th-head">
+              <tr style="height:36px;vertical-align:middle;">
+                <th style="width:60%;">Document Type</th>
+                <th>Link Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let linked of doctypes.linked">
+                <td>{{linked.DocumentType}}</td>
+                <td>{{linked.LinkType}}</td>
+                <td class="text-right" style="width:90px;">
+                  <span class="btn btn-success btn-sm" (click)="onEdit(linked.ID,linked.DocumentType)"><i class="fa fa-pencil fa-fw"></i></span>
+                  <span class="btn btn-danger btn-sm" (click)="onDelete(linked.ID,linked.DocumentType)"><i class="fa fa-chain-broken" aria-hidden="true"></i></span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </fieldset>
+      </div>
+    </div>    
+  </div>

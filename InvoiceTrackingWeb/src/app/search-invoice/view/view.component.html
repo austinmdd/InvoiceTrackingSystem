@@ -1,0 +1,167 @@
+<fieldset class="scheduler-border">
+    <legend class="scheduler-border">Supplier Details</legend>
+    <div class="row">
+      <div class="col-lg-12">        
+        <div class="row">
+          <div class="col-md-6">
+            <div>
+              <label class="col-sm-12 control-label bold"><strong>Name</strong></label>
+              <div class="col-sm-10">
+                <input class="form-control" type="text" [(ngModel)]="invoice.Supplier.Name" readonly>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div>
+              <label class="col-sm-12 control-label"><strong>Vendor Number</strong></label>
+              <div class="col-sm-10">
+                <input class="form-control" type="text" [(ngModel)]="invoice.Supplier.VendorCode" readonly>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div>
+              <label class="col-sm-12 control-label"><strong>CSD Number</strong></label>
+              <div class="col-sm-10">
+                <input class="form-control" type="text" [(ngModel)]="invoice.Supplier.CSDNumber" readonly>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset class="scheduler-border">
+    <legend class="scheduler-border">Purchase Order Details</legend>
+    <div class="row">
+      <div class="col-lg-12">        
+        <input type="text" [(ngModel)]="invoice" hidden>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div>
+              <label class="col-sm-12 control-label bold"><strong>PO Number</strong></label>
+              <div class="col-sm-10">
+                <input class="form-control" type="text" value="{{invoice.PurchaseOrder.PONumber}}" readonly>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div>
+              <label class="col-sm-12 control-label"><strong>PO Status</strong></label>
+              <div class="col-sm-10">
+                <input class="form-control" type="text" [(ngModel)]="invoice.PurchaseOrder.Status" readonly>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div>
+              <label for="podate" class="col-sm-12 control-label"><strong>PO Date</strong></label>
+              <div class="col-sm-10">
+                <input class="form-control" type="text"  value="{{invoice.PurchaseOrder.PODate | date:'y/MM/dd'}}" readonly>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="poamount" class="col-sm-12 control-label"><strong>PO Amount</strong></label>
+              <div class="col-sm-10">
+                <input class="form-control" type="text" value="{{invoice.PurchaseOrder.POAmount | currencyFormat}}" readonly>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="dueamount" class="col-sm-12 control-label"><strong>Invoiced Amount</strong></label>
+              <div class="col-sm-10">
+                <input class="form-control" type="text" value="{{invoice.PurchaseOrder.InvoicedAmount | currencyFormat}}" readonly>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="dueamount" class="col-sm-12 control-label"><strong>Amount Outstanding</strong></label>
+              <div class="col-sm-10">
+                <input class="form-control" type="text" value="{{invoice.PurchaseOrder.AmountOutstanding | currencyFormat}}" readonly>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </fieldset>
+   
+  <fieldset class="scheduler-border">
+    <legend class="scheduler-border">Invoice Details</legend>   
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="col-md-12">
+            <div>
+              <label class="col-sm-12 control-label"><strong>Invoice Number</strong></label>
+              <div class="col-sm-10">
+                <input class="form-control" type="text"  value="{{invoice.InvoiceNumber}}" readonly>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div>
+              <label class="col-sm-12 control-label"><strong>Invoice Amount</strong></label>
+              <div class="col-sm-10">
+                <input class="form-control" type="text" value="{{invoice.InvoiceAmount | currencyFormat}}" readonly>                
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div>
+              <label class="col-sm-12 control-label"><strong>Invoice Date</strong></label>
+              <div class="col-sm-10">
+                <input class="form-control" type="text"  value="{{invoice.InvoiceDate | date:'y/MM/dd'}}" readonly>                
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="col-md-6">
+          <div class="col-md-12">
+            <div>
+              <label class="col-sm-12 control-label"><strong>Status</strong></label>
+              <div class="col-sm-10">
+                <input class="form-control" type="text" value="{{invoice.Status}}" readonly>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div>
+              <label class="col-sm-12 control-label"><strong>Comment</strong></label>
+              <div class="col-sm-10">
+                <textarea class="form-control" rows="4"  value="{{invoice.Description}}" readonly></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </fieldset> 
+  
+  <fieldset *ngIf="showAdminOpt" class="scheduler-border">
+    <legend class="scheduler-border">Approvals</legend>
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-9">    
+        </div> 
+        <div class="col-md-3">
+          <div class="row">
+            <div class="col-md-6 text-right"><button class="btn btn-danger btn-sm" (click)="invoiceAdmin('Reject')" style="width:80px;">Reject</button></div>
+            <div class="col-md-6 text-left"><button class="btn btn-success btn-sm" (click)="invoiceAdmin('Approve')" style="width:80px;">Approve</button></div>
+          </div>
+        </div>  
+      </div>
+    </div>
+  </fieldset>  
+

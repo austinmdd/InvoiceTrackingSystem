@@ -1,0 +1,62 @@
+<div class="container-fluid">       
+  <ol class="breadcrumb">
+    <li style="width:100%;">
+      <div class="row">
+        <h5 class="col-md-11"><strong>{{lblHeading}}</strong></h5>
+        <span class="col-md-1 btn-back"><a [routerLink]="['/statuses']"><i class="fa fa-arrow-circle-left fa-2x" aria-hidden="true"></i></a></span>
+      </div>
+      </li>
+</ol>
+  <div class="card-body">
+    <div class="ctt-pos">
+      <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="center-form">
+        <input type="hidden" formControlName="StatusCode" name="StatusCode" />
+        <div class="form-group">
+          <label for="supplierName" class="control-label col-md-3"><strong style="font-size:12px;">Status*</strong></label>
+          <div class="col-md-9">
+            <input type="text" name="Status" formControlName="Status" class="form-control" [ngClass]="{'error':form.controls.Status.invalid && form.controls.Status.dirty, 'noerror': form.controls.Status.valid && form.controls.Status.dirty}" />
+            <div class="form-control-feedback text-danger text-small" *ngIf="form.controls.Status.invalid && form.controls.Status.dirty">
+              <p *ngIf="form.controls.Status.errors.required">Status is required</p>
+              <p *ngIf="form.controls.Status.errors.maxlength">Status must not be more than 12 characters long</p>
+
+            </div>
+            <p *ngIf="isDup" class="text-danger">Duplicate statuses are not allowed</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="amount" class="control-label col-md-3"><strong style="font-size:12px;">Description*</strong></label>
+          <div class="col-md-9">
+            <textarea name="Description" formControlName="Description" class="form-control" [ngClass]="{'error':form.controls.Description.invalid && form.controls.Description.dirty, 'noerror': form.controls.Description.valid && form.controls.Description.dirty}"></textarea>
+            <div class="form-control-feedback text-danger text-small" *ngIf="form.controls.Description.invalid && form.controls.Description.dirty">
+              <p *ngIf="form.controls.Description.errors.required">Description is required</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group left-m">
+
+          <div class="form-check form-check-inline">
+            <label class="form-check-label">
+              <input class="form-check-input" type="checkbox" id="SupplierInvoiceYN" value="SupplierInvoiceYN" formControlName="SupplierInvoiceYN"> Supplier Invoice
+            </label>
+          </div>
+
+          <div class="form-check form-check-inline">
+            <label class="form-check-label">
+              <input class="form-check-input" type="checkbox" id="SubmissionYN" value="SubmissionYN" formControlName="SubmissionYN"> Submission
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <label class="form-check-label">
+              <input class="form-check-input" type="checkbox" id="PurchaseOrderYN" value="PurchaseOrderYN" formControlName="PurchaseOrderYN"> Purchase Order
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-md-6 col-md-offset-2">
+            <button type="submit" [disabled]="!form.valid" class="btn btn-md btn-primary" style="width:80px;">{{btnActionLabel}}</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

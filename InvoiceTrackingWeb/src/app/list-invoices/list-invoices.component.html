@@ -1,0 +1,98 @@
+<div class="container-fluid">
+
+  <ol class="breadcrumb" style="margin-bottom:30px;">
+    <li style="width:100%;">
+      <div *ngIf="!isView" class="row">
+        <div class="col-md-12"><h5>Invoices</h5></div>       
+      </div>
+      <div class="row" *ngIf="isView">
+        <div class="col-md-11">Information about Invoice  <strong class="text-primary">{{invoice.InvoiceNumber}}</strong></div>
+        <div class="col-md-1  btn-back"><a (click)="reload()"><i class="fa fa-arrow-circle-left fa-2x text-primary" aria-hidden="true"></i></a></div>
+      </div>      
+    </li>
+  </ol>
+  <div id="searchHolder">
+    <div class="row" *ngIf="!isView">
+
+      <div class="col-md-12" style="margin-bottom:20px;">
+        <div class="form-inline">
+          <div class="form-group">
+            <label for="invCat" class="control-label"><strong style="margin-right:4px;">Filter by Invoice Status: </strong></label>
+            <select class="form-control" (ngModel)="selectedStatus" (change)="onReload($event.target.value)">
+              <option [ngValue]="All" >All</option>
+              <option *ngFor="let status of statuses" [ngValue]="status.Status">{{status.Status}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+     <div class="col-md-12">
+         
+        <div class="alert alert-light" role="alert" *ngIf="isError">
+          <strong class="{{errorC}}">{{errorMsg}}</strong>
+        </div>
+        <div class="col-md-12" *ngIf="isLoading">
+          <app-busy [message]="message"></app-busy>
+        </div>
+
+
+      </div>
+      <div class="col-md-12">
+        <fieldset class="row">
+          <div class="col-md-12" *ngIf="invHasData">
+            <table class="table table-sm" style="width:100%;">
+              <thead class="th-head">
+                <tr>
+                  <th>Invoice Number
+                    <i style="vertical-align:middle;"  class="fa fa-2x" [ngClass]="{'fa-sort-asc sort-a': (flags.flagIN == 2),'fa-sort-desc sort-d': (flags.flagIN == 3), 'fa-sort':(flags.flagIN == 1) }" (click)="onSort(1)"></i>
+                  </th>
+                  <th>Invoice Amount
+                    <i style="vertical-align:middle;"class="fa fa-2x" [ngClass]="{'fa-sort-asc sort-a': (flags.flagIA == 2),'fa-sort-desc sort-d': (flags.flagIA == 3), 'fa-sort':(flags.flagIA == 1) }"  (click)="onSort(2)"></i>
+                  </th>
+                  <th>Invoice Date
+                    <i style="vertical-align:middle;"class="fa fa-2x" [ngClass]="{'fa-sort-asc sort-a': (flags.flagID == 2),'fa-sort-desc sort-d': (flags.flagID == 3), 'fa-sort':(flags.flagID == 1) }"  (click)="onSort(3)"></i>
+                  </th>
+                  <th>Status
+                    <i style="vertical-align:middle;" class="fa fa-2x" [ngClass]="{'fa-sort-asc sort-a': (flags.flagIS == 2),'fa-sort-desc sort-d': (flags.flagIS == 3), 'fa-sort':(flags.flagIS == 1) }"  (click)="onSort(4)"></i>
+                  </th>                  
+                  <th>PO Number
+                    <i style="vertical-align:middle;" class="fa fa-2x" [ngClass]="{'fa-sort-asc sort-a': (flags.flagPO == 2),'fa-sort-desc sort-d': (flags.flagPO == 3), 'fa-sort':(flags.flagPO == 1) }" (click)="onSort(5)"></i>
+                  </th>
+                  <th style="width:20%">Supplier Name
+                    <i style="vertical-align:middle;" class="fa fa-2x" [ngClass]="{'fa-sort-asc sort-a': (flags.flagSN == 2),'fa-sort-desc sort-d': (flags.flagSN == 3), 'fa-sort':(flags.flagSN == 1) }"  (click)="onSort(6)"></i>
+                  </th>
+                  <th style="width:14%">Comment</th>
+                </tr>
+              </thead>
+              <tbody class="sup-size">
+                <tr *ngFor="let invo of invoices | orderBy: criteria : direction | paginate: {itemsPerPage:pageSize, currentPage: currentPage ,totalItems: count}">
+                  <td>{{invo.InvoiceNumber}}</td>
+                  <td class="right">{{invo.InvoiceAmount ? (invo.InvoiceAmount | currencyFormat) : 'R0.00'}}</td>
+                  <td>{{invo.InvoiceDate | date:'y/MM/dd'}}</td>
+                  <td>{{invo.Status}}</td>                                    
+                  <td>{{invo.PONumber}}</td>
+                  <td>{{invo.SupplierName}}</td>
+                  <td>{{invo.Description}}</td>
+                  <td class="alignL">
+                    <button (click)="navigate(invo.ID)" class="btn btn-primary btn-sm"><i class="fa fa-list" aria-hidden="true"></i></button>
+                  </td>                  
+                </tr>
+                <tr *ngIf="count > 50">
+                  <td colspan="6">
+                    <pagination-controls  (pageChange)="currentPage =  onReloadNext($event)" style="margin:0px;padding:0px;"></pagination-controls>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+    <div class="row" *ngIf="isView">
+      <div class="col-md-12">
+        <view-invoice [invoice]="invoice" ></view-invoice>
+      </div>
+    </div>
+  </div>
+ </div>
+

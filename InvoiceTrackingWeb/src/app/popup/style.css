@@ -1,0 +1,21 @@
+#textarea {
+    display: none;
+}
+
+#textarea:target {
+    display: block;
+}
+
+#textarea + ul.controls {
+    list-style-type: none;
+}
+
+#textarea + ul.controls .hide,
+#textarea:target + ul.controls .show {
+    display: none;
+}
+
+#textarea:target + ul.controls .hide,
+#textarea + ul.controls .show {
+    display: inline-block;
+}

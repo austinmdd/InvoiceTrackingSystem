@@ -1,0 +1,94 @@
+<div class="container-fluid">
+  
+    <ol class="breadcrumb" style="margin-bottom:20px;">
+      <li  style="width:100%;">
+        <div class="row" *ngIf="!isView">
+          <div class="col-md-11"><h5>Find an Invoice</h5></div>
+          <div class="col-md-1  btn-back"><a [routerLink]="['/']"><i class="fa fa-arrow-circle-left fa-2x" aria-hidden="true"></i></a></div>          
+        </div>
+        <div class="row" *ngIf="isView">
+          <div class="col-md-11">Information about Invoice  <strong class="text-primary">{{InvoiceNumber}}</strong></div>
+          <div class="col-md-1  btn-back"><a (click)="onHideView()"><i class="fa fa-arrow-circle-left fa-2x text-primary" aria-hidden="true"></i></a></div>
+        </div>
+      </li>
+    </ol>
+  <div id="searchHolder" *ngIf="!isView">
+    <div class="row">
+      <div class="col-md-12">
+        <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+          <table border="0" style="margin-bottom:20px;width:90%;">
+            <tr class="col-md-12">
+              <td class="" style="margin:0px;padding:0px;">Invoice Number </td>
+              <td class="size-1">
+                <input type="radio" checked name="search" value="INVN" style="text-align:center;" (click)="onCheck(true)" />
+              </td>
+              <td> Supplier Name </td>
+              <td class="size-1">
+                <input type="radio" name="search" value="SUP" style="text-align:center;" (click)="onCheck(false)" />
+              </td>
+              <td class="size">
+                <input type="text" name="searchText" id="searchText" formControlName="searchText" class="form-control" />
+              </td>
+              <td>
+                <button type="submit" [disabled]="!form.valid" class="btn btn-primary"><i class="fa fa-search" aria-hidden="true"></i></button>
+              </td>
+              <td>
+                <button type="button" class="btn btn-success"><i class="fa fa-undo" aria-hidden="true" (click)="resetForm()"></i></button>
+              </td>
+            </tr>
+          </table>
+        </form>
+        <div class="alert alert-light" role="alert" *ngIf="isError">
+          <strong class="{{errorC}}">{{errorMsg}}</strong>
+        </div>
+        <div class="col-md-12" *ngIf="isSearching">          
+          <app-busy [message]="message"></app-busy>
+        </div>
+
+
+      </div>
+      <div class="col-md-12">
+        <fieldset class="row">
+          <div class="col-md-12" *ngIf="invHasData">
+            <table class="table table-sm" style="width:100%;">
+              <thead class="th-head">
+                <tr>
+                  <th>Invoice Number</th>
+                  <th>Invoice Amount</th>
+                  <th>Invoice Date</th>
+                  <th>Status</th>
+                  <th style="width:20%">Comment</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let invo of invoices | paginate: {  id:'invos', itemsPerPage:5, currentPage: p ,totalItems: count}" [class.isClicked]="invo.ID == isSelected" style="">
+                  <td>{{invo.InvoiceNumber}}</td>
+                  <td class="right">{{invo.InvoiceAmount ? (invo.InvoiceAmount | currencyFormat) : 'R0.00'}}</td>
+                  <td>{{invo.InvoiceDate | date:'y/MM/dd'}}</td>
+                  <td>{{invo.Status}}</td>
+                  <td>{{invo.Description}}</td>
+                  <td class="alignL">
+                    <button (click)="onShowView(invo.ID)" class="btn btn-primary btn-sm" [class.isClicked]="invo.ID == isSelected"><i class="fa fa-list" aria-hidden="true"></i></button>
+                  </td>
+                  <td class="alignL">
+                    <button (click)="onSendID(invo.ID)" class="btn btn-primary btn-sm" [class.isClicked]="invo.ID == isSelected"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i></button>
+                  </td>
+                </tr>
+                <tr *ngIf="count > 4">
+                  <td colspan="6">
+                    <pagination-controls id="invos" (pageChange)="p =  onSearch(searchText,$event)" style="margin:0px;padding:0px;" (click)="onChanges()"></pagination-controls>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+  </div> 
+  <div class="row" *ngIf="isView">
+    <div class="col-md-12">
+      <view-invoice [invoice]="invoice" ></view-invoice>
+    </div>
+  </div>
+</div>

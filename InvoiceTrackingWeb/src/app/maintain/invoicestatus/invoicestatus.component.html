@@ -1,0 +1,52 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="breadcrumb col-md-12" style="margin-top:30px;  vertical-align:middle;">
+      <h5 class="" style="vertical-align:middle;"><strong>{{lblHeading}}</strong></h5>
+    </div>
+  </div>
+  <div class="row">
+    <div *ngIf="isRemove" class="text-danger col-md-12">
+      <input type="hidden" [(ngModel)]="removeRef" name="ID" /> Are you sure you want to delete document type<strong> {{removeRef.Status}} </strong>?
+      <button class="btn btn-danger btn-sm" (click)="onDelete(removeRef.StatusCode)" style="width:80px;">Yes</button>
+      <button class="btn btn-default btn-sm" (click)="onNo()" style="width:80px;">No</button>
+    </div>
+    <div class="table-responsive col-md-12" *ngIf="!isRemove">
+      <table border="0" style="margin:20px auto;width:94%;" class="table table-sm">
+        <thead class="th-head" style="">
+          <tr style="vertical-align:middle;">
+            <th>
+              Status <i style="vertical-align:middle;" class="fa fa-2x"
+                        [ngClass]="{'fa-sort-asc': (!direction),'fa-sort-desc': (direction) }"
+                        aria-hidden="true" (click)="onSort()"></i>
+            </th>
+            <th style="vertical-align:middle;">Description</th>
+            <th style="vertical-align:middle;">Supplier Invoice?</th>
+            <th style="vertical-align:middle;">Submission?</th>
+            <th style="vertical-align:middle;">Purchase Order?</th>
+            <th style="background:white;border:none;">
+              <a [routerLink]="['/statuses/add']" title="" style="width:180px; ">
+                <span class=" btn-add btn btn-primary btn-sm"><i class="fa fa-plus fa-2x" aria-hidden="true"></i></span>
+              </a>
+            </th>
+          </tr>
+        </thead>
+        <tr *ngFor="let status of statuses  | orderBy: criteria : direction | paginate: { itemsPerPage: 5, currentPage: page }">
+          <td>{{status.Status}}</td>
+          <td>{{status.Description}}</td>
+          <td>{{(status.SupplierInvoiceYN)?((status.SupplierInvoiceYN)?"Yes":"No"):"No"}}</td>
+          <td>{{(status.SubmissionYN)?((status.SubmissionYN)?"Yes":"No"):"No"}}</td>
+          <td>{{(status.PurchaseOrderYN)?((status.PurchaseOrderYN)?"Yes":"No"):"No"}}</td>
+          <td class="text-right" style="width:86px;">
+            <a [routerLink]="['/statuses/edit',status.StatusCode]"><span class="btn btn-success btn-sm"><i class="fa fa-pencil fa-fw"></i></span></a>
+            <span class="btn btn-danger btn-sm" (click)="onConfirm(status)"><i class="fa fa-trash-o fa-fw"></i></span>
+          </td>
+        </tr>
+        <tr *ngIf="statuses.length > 4">
+          <td colspan="2">
+            <pagination-controls (pageChange)="page = $event" style="margin:0px;padding:0px;"></pagination-controls>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

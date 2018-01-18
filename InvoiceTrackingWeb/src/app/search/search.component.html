@@ -1,0 +1,109 @@
+<div class="container-fluid">  
+  <ol class="breadcrumb">
+    <li style="width:100%;">
+      <div class="row">
+        <div class="col-md-11"><h5>Find a PO</h5></div>
+        <div class="col-md-1 btn-back"><a [routerLink]="['/']"><i class="fa fa-arrow-circle-left fa-2x" aria-hidden="true"></i></a></div>
+      </div>
+    </li>           
+</ol>
+  <div class="row">
+    <div class="col-md-12">
+      <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+        <table border="0" style="margin-bottom:20px;width:90%;">
+          <tr class="col-md-12">
+            <td class="size-L" style="margin:0px;padding:0px;">PO Number </td>
+            <td class="size-1">
+              <input type="radio" checked name="search" value="PO" style="text-align:center;" (click)="onCheck(true)" />
+            </td>
+            <td class="size-L"> Supplier Name </td>
+            <td class="size-1">
+              <input type="radio" name="search" value="SUP" style="text-align:center;" (click)="onCheck(false)" />
+            </td>
+            <td class="size">
+              <input type="text" name="searchText" id="searchText" formControlName="searchText" class="form-control" />
+            </td>
+            <td>
+              <button type="submit" [disabled]="!form.valid" class="btn btn-primary"><i class="fa fa-search" aria-hidden="true"></i></button>
+            </td>
+            <td>
+              <button type="button" class="btn btn-success"><i class="fa fa-undo" aria-hidden="true" (click)="resetForm()"></i></button>
+            </td>
+          </tr>
+        </table>
+      </form>      
+      <div class="alert alert-light" role="alert" *ngIf="isError">
+        <strong class="{{errorC}}">{{errorMsg}}</strong>
+      </div>
+      <div class="col-md-12" *ngIf="isSearching">               
+        <app-busy [message]="message"></app-busy>
+      </div>
+    </div>
+    
+    <div class="col-md-12">
+      <fieldset class="row">
+        <div class="col-md-12" *ngIf="supHasData">
+          <table class="table table-sm" style="width:100%;">
+            <thead class="th-head">
+              <tr>
+                <th style="width:35%">Supplier</th>
+                <th>Registration Number</th>
+                <th>Tax Compliant?</th>
+                <th>CSD Number</th>
+                <th>Vendor Code</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let supp of suppliers | paginate: {  id:'supps', itemsPerPage: 5, currentPage: p ,totalItems: count}" [class.isClicked]="supp.ID == isSelected" style="">
+                <td>{{supp.Name}}</td>
+                <td>{{supp.RegNumber}}</td>
+                <td>{{(supp.TaxCompliant)?((supp.TaxCompliant)?"Yes":"No"):""}}</td>
+                <td>{{supp.CSDNumber}}</td>
+                <td>{{supp.VendorCode}}</td>
+                <td class="alignL">
+                  <button (click)="getPOs(supp.ID)" class="btn btn-primary btn-sm" [class.isClicked]="supp.ID == isSelected"><i class="fa fa-list" aria-hidden="true"></i></button>
+                </td>
+              </tr>
+              <tr *ngIf="count > 4">
+                <td colspan="6">
+                  <pagination-controls id="supps" (pageChange)="p =  onSearch(searchText,$event)" style="margin:0px;padding:0px;" (click)="onChanges()"></pagination-controls>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="col-md-10" *ngIf="poHasPos">
+          <table class="table table-sm" style="width:100%;">
+            <thead class="th-head">
+              <tr>
+                <th>PO Number</th>
+                <th>PO Date</th>
+                <th class="right">PO Amount</th>
+                <th class="right">Invoiced Amount</th>
+                <th class="right">Amount Outstanding</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let po of suppos | paginate: { itemsPerPage: 5, currentPage: po ,id:'pos'}">
+                <td>{{po.PONumber}}</td>
+                <td>{{po.PODate | date:'y/MM/dd'}}</td>
+                <td class="right">{{po.POAmount | currencyFormat}}</td>
+                <td class="right">{{po.InvoicedAmount ? (po.InvoicedAmount | currencyFormat) : 'R0.00' }}</td>
+                <td class="right">{{po.AmountOutstanding | currencyFormat}}</td>
+                <td class="alignL">
+                  <button (click)="navigate(po.ID)" class="btn btn-primary btn-sm"><i class="fa fa-upload" aria-hidden="true"></i></button>
+                </td>
+              </tr>
+              <tr *ngIf="suppos.length > 4">
+                <td colspan="6">
+                  <pagination-controls id="pos" (pageChange)="po = $event" style="margin:0px;padding:0px;"></pagination-controls>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </fieldset>
+      </div>
+    </div>
+</div>

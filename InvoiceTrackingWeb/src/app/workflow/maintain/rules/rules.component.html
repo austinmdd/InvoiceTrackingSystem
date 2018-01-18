@@ -1,0 +1,165 @@
+<div class="container-fluid">
+  <div class="col-md-12" *ngIf="isLoading">          
+    <app-busy [message]="message"></app-busy>
+  </div>
+  <div class="row" >
+    <div class="breadcrumb col-md-12" style="margin-top:30px;">
+    <h5 class="card-title" style="vertical-align:middle;"><strong>{{lblHeading}}</strong> </h5>
+    </div>
+</div>
+<div *ngIf="isRemove" class="text-danger col-md-12">
+      <input type="hidden" [(ngModel)]="removeRule" name="supplier.SupplierId" /> Are you sure you want to delete Compliance Checklist <strong> {{removeRule.RuleName}} </strong>?
+      <button class="btn btn-danger btn-sm" (click)="onDelete(removeRule.ID)" style="width:80px;">Yes</button>
+      <button class="btn btn-default btn-sm" (click)="onNo()" style="width:80px;">No</button>
+    </div>
+    
+  
+    <div class="col-md-12" *ngIf="!isRemove">
+        
+  <div class="col-md-12" style="margin-bottom:5px;margin-top:5px">
+    <table class="filters-table" style="width:100%">
+      <tr>
+        <td>
+          Search Compliance Checklist
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input class="form-control input-sm" [(ngModel)]="searchText" type="text" />
+        </td>
+        <td>
+          <button class="btn btn-primary"  (click)="SearchRule()"><i class="fa fa-search"></i></button>
+          <button type="button" class="btn btn-success"><i class="fa fa-undo" aria-hidden="true" (click)="resetForm()"></i></button>
+        </td>
+        <td>
+            
+        </td>
+        
+        <th style="background:white;border:none;">
+          <a [routerLink]="['/checklist/add']">
+            <span class=" btn-add btn btn-primary btn-sm"><i class="fa fa-plus fa-2x" aria-hidden="true"></i></span>
+          </a>
+       </th>
+
+      </tr>
+    </table>
+  </div>
+</div>
+
+
+<div *ngIf="!IsSearchDataFound">
+  <div class="col-md-12" style="padding-bottom:0;margin-bottom:0">
+    <div class="table-responsive" style="padding-bottom:0;margin-bottom:0">
+      <table class="table table-bordered table-condensed table-hover" style="padding-bottom:0;margin-bottom:0">
+        <thead class="th-head" >
+          <tr>
+            <th>
+                <span>Compliance Checklist</span><i style="vertical-align:middle;" class="fa fa-2x" [ngClass]="{'fa-sort-asc': (!direction),'fa-sort-desc': (direction) }"
+                aria-hidden="true" (click)="onSort()"></i>
+              </th>
+            <th>Active</th>
+            <th>User Created</th>
+            <th>Date Created</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let rule of allrules | orderBy: criteria : direction | paginate: { itemsPerPage: pageSize, currentPage: page}">
+            <td>{{rule.ChecklistName}}</td>
+            <td>{{rule.Enabled}}</td>
+            <td>{{rule.UserCreated}}</td>
+            <td>{{rule.DateCreated | date:'y/MM/dd'}}</td>
+          
+          <td >
+            <a [routerLink]="['/checklist/edit',rule.ID]"><span class="btn btn-success btn-sm"><i class="fa fa-pencil fa-fw"></i></span></a>
+            
+          </td>
+          <td >
+            <span class="btn btn-danger btn-sm" (click)="onConfirm(rule)"><i class="fa fa-trash-o fa-fw"></i></span>
+            
+          </td>
+          </tr>
+          <tr *ngIf="allrules.length > 4">
+              <td colspan="2">
+                <pagination-controls (pageChange)="page = $event" style="margin:0px;padding:0px;" (click)="onNext(page)"></pagination-controls>
+              </td>
+            </tr>
+           
+         
+         
+        </tbody>
+       
+      </table>
+     
+      
+    </div>
+    
+
+    </div>
+  </div>
+
+  <div *ngIf="IsSearchDataFound">
+    <div class="col-md-12" style="padding-bottom:0;margin-bottom:0">
+      <div class="table-responsive" style="padding-bottom:0;margin-bottom:0">
+        <table class="table table-bordered table-condensed table-hover" style="padding-bottom:0;margin-bottom:0">
+          <thead class="th-head" >
+            <tr>
+              <th>
+                <span>Rule Name </span><i style="vertical-align:middle;" class="fa fa-2x" [ngClass]="{'fa-sort-asc': (!direction),'fa-sort-desc': (direction) }"
+                aria-hidden="true" (click)="onSort()"></i>
+              </th>
+            <th>Active</th>
+            <th>User Created</th>
+            <th>Date Created</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let rule of searchResults | orderBy: criteria : direction | paginate: { itemsPerPage: pageSize, currentPage: page}">
+              <td>{{rule.ChecklistName}}</td>
+              <td>{{rule.Enabled}}</td>
+              <td>{{rule.UserCreated}}</td>
+              <td>{{rule.DateCreated | date:'y/MM/dd'}}</td>
+            
+            <td >
+              <a [routerLink]="['/checklist/edit',rule.ID]"><span class="btn btn-success btn-sm"><i class="fa fa-pencil fa-fw"></i></span></a>
+              
+            </td>
+            <td >
+              <span class="btn btn-danger btn-sm" (click)="onConfirm(rule)"><i class="fa fa-trash-o fa-fw"></i></span>
+              
+            </td>
+            </tr>
+            <tr *ngIf="searchResults.length > 4">
+                <td colspan="2">
+                  <pagination-controls (pageChange)="page = $event" style="margin:0px;padding:0px;" (click)="onNext(page)"></pagination-controls>
+                </td>
+              </tr>
+              </tbody>
+         
+        </table>
+       
+        
+      </div>
+      
+
+      </div>
+    </div>
+
+  
+    
+  </div>
+
+
+
+
+ 
+
+
+
+
+
+
+

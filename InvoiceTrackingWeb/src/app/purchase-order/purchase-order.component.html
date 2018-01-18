@@ -1,0 +1,238 @@
+<div class="container-fluid">
+    <ol class="breadcrumb" style="margin-bottom:20px;">
+        <li  style="width:100%;">
+            <div class="row">
+                <div class="col-md-11"><strong class="text-primary">SUBMIT INVOICE</strong></div>
+            </div>
+        </li>
+    </ol>
+            <!-- Page Heading -->
+    <div class="col-md-12" *ngIf="spinner">               
+        <app-busy [message]="message"></app-busy>
+    </div>
+        <!-- End Page Heading -->
+    <form [formGroup]="invForm" (ngSubmit)="POST(invForm.value)">
+
+            <div class="col-lg-12"> <!-- Supplier Details Sections -->
+                <fieldset class="scheduler-border">
+                <legend class="scheduler-border"><strong>Supplier Details</strong></legend>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div>
+                            <label class="col-sm-12 control-label bold"><strong>Name</strong></label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" formControlName="Name" [(ngModel)]="SupInvDTO.Name" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div>
+                            <label class="col-sm-12 control-label"><strong>Vendor Number</strong></label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" formControlName="VendorCode" [(ngModel)]="SupInvDTO.VendorCode" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div>
+                            <label class="col-sm-12 control-label"><strong>CSD Number</strong></label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" formControlName="CSDNumber" [(ngModel)]="SupInvDTO.CSDNumber" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </fieldset>
+            </div> <!-- End Supplier Details Sections -->
+
+            <div class="col-lg-12"> <!-- Purchase Order Details Sections -->
+             <fieldset class="scheduler-border">
+             <legend class="scheduler-border"><strong>Purchase Order Details</strong></legend>   
+                <input type="text" formControlName="POID" [(ngModel)]="SupInvDTO.POID" hidden>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div>
+                            <label class="col-sm-12 control-label bold"><strong>PO Number</strong></label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" formControlName="PONumber" [(ngModel)]="SupInvDTO.PONumber" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div>
+                            <label class="col-sm-12 control-label"><strong>PO Status</strong></label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" formControlName="POStatus" [(ngModel)]="SupInvDTO.POStatus" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div>
+                            <label for="podate" class="col-sm-12 control-label"><strong>PO Date</strong></label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" formControlName="PODate" [(ngModel)]="SupInvDTO.PODate" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="poamount" class="col-sm-12 control-label"><strong>PO Amount</strong></label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" formControlName="POAmount" [(ngModel)]="SupInvDTO.POAmount" value="{{ SupInvDTO.POAmount |  currencyFormat }}"
+                                    readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="dueamount" class="col-sm-12 control-label"><strong>Amount Due</strong></label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" formControlName="DueAmount" [(ngModel)]="SupInvDTO.DueAmount" value="{{ SupInvDTO.DueAmount | currencyFormat }}"
+                                    readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            </div> <!-- End Purchase Order Details Sections -->
+
+        <div class="col-md-12"> <!-- Invoice Details Sections -->
+        <fieldset class="scheduler-border">
+        <legend class="scheduler-border"><strong>Invoice Details</strong></legend>                     
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        <div>
+                            <label class="col-sm-12 control-label"><strong>Invoice Number *</strong></label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" formControlName="InvoiceNumber" [(ngModel)]="SupInvDTO.InvoiceNumber"  [ngClass]="{'error': invForm.controls.InvoiceNumber.invalid  && invForm.controls.InvoiceNumber.dirty , 'noerror': invForm.controls.InvoiceNumber.valid  && invForm.controls.InvoiceNumber.dirty}">
+                                <div class="form-control-feedback text-danger text-small" *ngIf="invForm.controls.InvoiceNumber.invalid && invForm.controls.InvoiceNumber.dirty">
+                                    <p *ngIf="invForm.controls.InvoiceNumber.errors.required">*Required</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div>
+                            <label class="col-sm-12 control-label"><strong>Invoice Amount *</strong></label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" formControlName="InvoiceAmount" (ngModel)="SupInvDTO.InvoiceAmount"  [ngClass]="{'error': invForm.controls.InvoiceAmount.invalid && invForm.controls.InvoiceAmount.dirty , 'noerror': invForm.controls.InvoiceAmount.valid && invForm.controls.InvoiceAmount.dirty}"
+                                    (blur)="onBlurAmount($event)" placeholder="R 0.00" onkeypress="return String.fromCharCode(event.charCode).match(/[0-9\.]/g) != null">
+                                <div class="form-control-feedback text-danger text-small" *ngIf="invForm.controls.InvoiceAmount.invalid && invForm.controls.InvoiceAmount.dirty">
+                                    <p *ngIf="invForm.controls.InvoiceAmount.errors.required">*Required</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="col-md-12">
+                        <div>
+                            <label class="col-sm-12 control-label"><strong>Invoice Date *</strong></label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" formControlName="InvoiceDate"
+                                    (ngModel)="SupInvDTO.InvoiceDate" [ngClass]="{'error': invForm.controls.InvoiceDate.invalid && invForm.controls.InvoiceDate.dirty, 'noerror': invForm.controls.InvoiceDate.valid && invForm.controls.InvoiceDate.dirty}"
+                                    (blur)="onBlurDate()">
+                                <div class="form-control-feedback text-danger text-small" *ngIf="invForm.controls.InvoiceDate.invalid && invForm.controls.InvoiceDate.dirty">
+                                    <p *ngIf="invForm.controls.InvoiceDate.errors.required">*Required</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+
+                    <div class="col-md-12">
+                        <div>
+                            <label class="col-sm-12 control-label"><strong>Comment</strong></label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" rows="5" formControlName="Description" [(ngModel)]="SupInvDTO.Description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        </div> <!--End Invoice Details Sections-->
+
+        <div class="col-lg-12" >
+            <fieldset class="scheduler-border">
+            <legend class="scheduler-border"><strong>Upload Supporting Documents</strong></legend>      
+          
+            <div class="col-md-12" >
+                <div class="row">
+                    <div class="col-md-6">
+                            <label ><strong>Select Invoice Category</strong></label>
+                            <select class="form-control" [ngClass]="{'disabled': invForm.invalid }" #invCat formControlName="InvoiceCat" (change)="selectedCategory(invForm.value, invCat.value)"> 
+                           <option [disabled]="!invForm.valid" id={{cat.ID}} *ngFor="let cat of SupInvDTO.InvoiceCat" [value]=cat.ID>{{cat.InvoiceCategory}}</option>
+                         </select> 
+                    </div>
+                </div>
+            </div>
+            <upload-document></upload-document>
+           <!-- <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label >Select Document Type:</label>
+                        <select class="form-control" #selectedDoc formControlName="FileUploadType" placeholder="Select Document Type"> 
+                           <option id={{doc.DocType}} *ngFor="let doc of SupInvDTO.LinkedDocs" [value]=doc.DocTypeID (click)="SelectedOption(doc.DocType)">{{doc.DocType}}</option>
+                         </select> 
+                        </div>
+                         
+                    <div class="col-md-3">
+                            <label >Choose file:</label>
+                        <input type="file" #uploader formControlName="FileUpload"  [disabled]="!invForm.valid" (change)="selectedfile($event)">
+                    </div>
+                    <div class="col-md-3">
+                            <label ></label>
+                        <div>
+                        <button type="button" id="btnUpload" class="btn btn-md btn-success pull-left"  [disabled]="!invForm.valid" (click)="fileLoaded(invForm.value,selectedDoc.value, selectedDoc.index)">Upload</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+    <br>
+            <div class="row">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th hidden>DocumentID</th>
+                            <th>Document Name</th>
+                            <th>Document Type</th>
+                            <th>View Document</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let doc of SupInvDTO.UploadedDocs">
+                            <td hidden>{{doc.ID}}</td>
+                            <td>{{doc.DocName}}</td>
+                            <td>{{doc.DocTypeName}}</td>
+                            <td><button type="button" class="btn btn-danger" (click)="download(doc.ObjectID)">View Document</button></td>
+                            
+                            <td>
+                                <button type="button" class="btn btn-danger btn-md push-left" (click)="deleteAttachment(doc.ID)"><i class="fa fa-close" aria-hidden="true"></i></button>                                
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>-->
+        </fieldset>
+        </div>
+        <!-- Invoice Details Sections - END -->
+        <!-- Form Controls -->
+        <div class="col-lg-12" >
+        <fieldset class="scheduler-border"> 
+            <br>
+            <button type="submit" id="btnSave" [disabled]="!invForm.valid" class="btn btn-md btn-success pull-right" style="width:15%; margin-left:10px; ">Save & Submit</button>                
+            <button type="submit" id="btnSave" [disabled]="!invForm.valid" class="btn btn-md btn-success pull-right" style="width:15%; margin-left:10px; ">Save</button>
+            <button type="button" id="btnCancel" class="btn btn-md btn-info pull-right" style="width:15%; margin-left:10px; " (click)="backToPO()">Cancel</button>
+        </fieldset>
+        </div>
+        <!-- Form Controls - END -->
+    </form>
+       
+        
+</div>

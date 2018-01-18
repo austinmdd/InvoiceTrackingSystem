@@ -1,0 +1,15 @@
+.left-m{
+  margin-left:15px;
+}
+.error {
+  border-collapse: collapse;
+  border-color: red;
+}
+
+.noerror {
+  border-collapse: collapse;
+  border-color: green;
+}
+
+
+

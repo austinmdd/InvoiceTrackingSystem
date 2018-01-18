@@ -1,0 +1,134 @@
+<style>
+  fieldset.scheduler-border {
+    border: 1px groove #ddd !important;
+    padding: 0 1.4em 1.4em 1.4em !important;
+    margin: 0 0 1.5em 0 !important;
+    -webkit-box-shadow:  0px 0px 0px 0px #000;
+            box-shadow:  0px 0px 0px 0px #000;
+}
+
+    legend.scheduler-border {
+        font-size: 1.2em !important;
+        font-weight: bold !important;
+        text-align: left !important;
+        width:auto;
+        padding:0 10px;
+        border-bottom:none;
+    }
+    #wkfl{
+ width:150px;   
+        }
+#wkfl option{
+  width:150px;   
+        }
+  </style>
+  <div class="container" style="padding:10px 10px;">
+        <ol class="breadcrumb">
+                <li style="width:100%;">
+                  <div class="row">
+                    <div class="col-md-11"><h5>Workflow Process </h5></div>
+                    <div class="col-md-1 btn-back"><a [routerLink]="['/']"><i class="fa fa-arrow-circle-left fa-2x" aria-hidden="true"></i></a></div>
+                  </div>
+                </li>
+              </ol>
+      <fieldset class="scheduler-border">
+          <legend class="scheduler-border">Search</legend>
+          <form>
+              <div class="row">
+              <div class="col-md-6">
+                  <label for="invCat" class="control-label"><strong style="margin-right:4px;">Role: </strong></label>
+                  <select  class="form-control " id="network-element"  >
+                      <!--<option *ngFor="let cat of categories" [ngValue]="cat">{{cat.InvoiceCategory}}</option> -->
+                           <option>Not paid</option>
+                           <option>Saved</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="invCat" class="control-label"><strong style="margin-right:4px;">Status: </strong></label>
+                    <select class="form-control" id="invCat" [(ngModel)]="selectedCat" (change)="onChange()" >
+                        <!--<option [ngValue]="null" >Select an invoice category</option>-->
+                        <option *ngFor="let cat of categories" [ngValue]="cat">{{cat.InvoiceCategory}}</option>
+                      </select>
+                  <!--  <select  class="form-control " id="network-element" [(ngModel)]="SelectedStatus" name= "network-element" (change)="onChange()" >
+                        <option [ngValue]="null">Select Status</option>
+                        <option *ngFor="let status of flowStatus"  [ngValue]="status"> {{status.WorkflowStatus}}</option>
+                        <option *ngFor="let cat of categories" [ngValue]="cat">{{cat.InvoiceCategory}}</option>
+                        
+                    </select>-->
+                  </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="invCat" class="control-label"><strong style="margin-right:4px;">User: </strong></label>
+                        <select  class="form-control " id="network-element"  >
+                            <!--<option *ngFor="let cat of categories" [ngValue]="cat">{{cat.InvoiceCategory}}</option> -->
+                                 <option>Not paid</option>
+                                 <option>Saved</option>
+                        </select>
+                      </div>
+                      <div class="col-md-6">
+                          <label for="invCat" class="control-label"><strong style="margin-right:4px;">Description: </strong></label>
+                          <select  class="form-control " id="network-element"  >
+                              <!--<option *ngFor="let cat of categories" [ngValue]="cat">{{cat.InvoiceCategory}}</option> -->
+                                   <option>Not paid</option>
+                                   <option>Saved</option>
+                          </select>
+                        </div>
+
+                    
+                </div>
+               
+                
+          </form>
+        </fieldset>
+        <div class="col-md-12">
+            <fieldset class="row">
+                <div class="col-md-12" >
+                    <table class="table table-sm" style="width:100%;">
+                        <thead class="th-head">
+                          <tr>
+                            <th>Invoice
+                                <i style="vertical-align:middle;"></i>
+                            </th>
+                            <th>Status
+                                <i style="vertical-align:middle;"></i>
+                            </th>
+                            <th>Role
+                                <i style="vertical-align:middle;"></i>
+                            </th>
+                            <th>User
+                                <i style="vertical-align:middle;"></i>
+                            </th>
+                          </tr>
+                          </thead>
+                          <tbody class="sup-size">
+                              <tr *ngFor="let inv of invoiceCat | orderBy: criteria : direction | paginate: { itemsPerPage: pageSize, currentPage: page}">
+                                  <td>{{inv.InvoiceCategory}}</td>
+                                  <td>{{inv.Description}}</td>
+                                  <td>{{inv.InvoiceCategory}}</td>
+                                  <td>{{inv.Description}}</td>
+                                  <td class="text-right" style="width:100px;">
+                                      <a>
+                                      <div  class="col-md-">
+                                              <select class="form-control" id="wkfl"  [(ngModel)]="selectedValue" (change)="OnChange(inv.ID)">
+                                                <option [ngValue]="null" >-Select Action-</option>
+                                               <option *ngFor="let w of WorkflowOptions" [ngValue]="w">{{w.name}}</option>
+                                              </select>
+                                              </div>
+                                             </a>
+                                            </td>
+
+                                </tr>
+
+                          </tbody>
+                      </table>
+                  </div>
+            </fieldset>
+          </div>
+       
+        <div id="footer"></div>
+
+
+        
+  </div>
+
