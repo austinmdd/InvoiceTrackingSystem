@@ -49,7 +49,7 @@ export class RuleManageComponent implements OnInit {
           },error => {
               error = error.json();
               this.isLoading = false;
-              this.dialogService.addDialog(ErrorComponent, { title: 'Load error', message: `Could not load data for selected rule`, statuscode: error.Status, url: error.Uri, servermessage: error.Message }); 
+              this.dialogService.addDialog(ErrorComponent, { title: 'Load error', message: `Could not load data for selected Compliance Checklist`, statuscode: error.Status, url: error.Uri, servermessage: error.Message }); 
               this.navigate();
           });
       }
@@ -87,12 +87,12 @@ onSubmit(obj:any) {
        this.rule.DateUpdated = new Date();
        this.ruleservice.update(this.rule).subscribe(result => {
            this.rule = result;
-           this.dialogService.addDialog(AlertComponent, { title: 'Update a Rule', message: `Rule ${this.rule.ChecklistName} updated succesfully.`, bold: `${this.rule.ChecklistName}` });
+           this.dialogService.addDialog(AlertComponent, { title: 'Update a Compliance Checklist', message: `Compliance Checklist ${this.rule.ChecklistName} updated succesfully.`, bold: `${this.rule.ChecklistName}` });
            this.isLoading = false;
            this.navigate();
        },error => {
            error = error.json();
-           this.dialogService.addDialog(ErrorComponent, { title: 'Update error', message: `Could not update rule ${this.rule.ChecklistName}`, statuscode: error.Status, url: error.Uri, servermessage: error.Message }); 
+           this.dialogService.addDialog(ErrorComponent, { title: 'Update error', message: `Could not update Compliance Checklist ${this.rule.ChecklistName}`, statuscode: error.Status, url: error.Uri, servermessage: error.Message }); 
            this.isLoading = false;
            this.navigate();
        });
@@ -103,12 +103,12 @@ onSubmit(obj:any) {
        this.rule.UserCreated = this.userCreated;
       this.ruleservice.add(this.rule).subscribe(result => {
            this.rule = result;
-           this.dialogService.addDialog(AlertComponent, { title: 'Add Rule', message: `Rule ${this.rule.ChecklistName} added succesfully.`, bold: `${this.rule.ChecklistName}` });              
+           this.dialogService.addDialog(AlertComponent, { title: 'Add Compliance Checklist', message: `Compliance Checklist ${this.rule.ChecklistName} added succesfully.`, bold: `${this.rule.ChecklistName}` });              
            this.isLoading = false;            
            this.navigate();
        },error => {
            error = error.json();
-           this.dialogService.addDialog(ErrorComponent, { title: 'Update error', message: `Could not add rule ${this.rule.ChecklistName}`, statuscode: error.Status, url: error.Uri, servermessage: error.Message }); 
+           this.dialogService.addDialog(ErrorComponent, { title: 'Update error', message: `Could not add Compliance Checklist ${this.rule.ChecklistName}`, statuscode: error.Status, url: error.Uri, servermessage: error.Message }); 
            this.isLoading = false;
            this.navigate();
        });

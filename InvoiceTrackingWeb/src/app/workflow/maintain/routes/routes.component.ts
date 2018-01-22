@@ -30,6 +30,8 @@ export class RoutesComponent implements OnInit {
   direction: boolean = false;
   searchText: string ='';
   searchResults: any = [];
+  routes:any;
+  isSwitchon: boolean = false;
  
   constructor(private routeservice:WorkflowRouteService,private roleservice:RolesServiceService,
   private viewroutesservice:ViewRoutesService,private dialogService:DialogService) { }
@@ -43,6 +45,11 @@ export class RoutesComponent implements OnInit {
     this.viewroutesservice.GetRoutes(this.page,this.pageSize).subscribe(result =>{
      this.allRoutes = result;
      //let newaction = this.allRoutes.Action;
+     if(this.allRoutes.Enabled == true){
+     this.isSwitchon = true;
+     }
+
+     console.log(this.allRoutes);
      this.isLoading = false;
     })
   }
@@ -80,6 +87,64 @@ export class RoutesComponent implements OnInit {
   onChangeHeandig(change: boolean = true) {
     this.lblHeading = (change) ? "Routes" : "Delete Route";
   }
+  enabledClicked(obj:any){
+    this.isLoading = true;
+    obj.Enabled = false;
+    this.deletedRoute.ID = obj.ID;
+    this.deletedRoute.RoleFrom = obj.RoleFrom;
+    this.deletedRoute.RoleTo = obj.RoleTo;
+    this.deletedRoute.Action = obj.Action;
+    this.deletedRoute.WFStatusToID = obj.WFStatusToID;
+    this.deletedRoute.Enabled = obj.Enabled;
+    this.deletedRoute.UserCreated = obj.UserCreated;
+    this.deletedRoute.UserUpdated ="Praxis";
+    this.deletedRoute.DateCreated = obj.DateCreated
+    this.deletedRoute.DateUpdated = new Date();
+    this.routeservice.update(this.deletedRoute).subscribe(result =>{
+     this.deletedRoute = result;
+     this.isLoading = true;
+     this.dialogService.addDialog(AlertComponent, { title: 'Disable route', message: `Route ${obj.RoleFromName} disabled.`, bold: `${obj.RoleFromName}` });                        
+     this.onNo();
+     this.getRoutes();
+     this.isLoading = false;
+    },error =>{
+      error = error.json();
+        this.dialogService.addDialog(ErrorComponent, { title: 'Disable route', message: `Route ${obj.RoleFromName } was not disabled.`, statuscode: error.Status, url: error.Uri, servermessage: error.Message }); 
+        this.isLoading = false;
+    });
+ 
+
+  }
+
+  disabledClicked(obj:any){
+    this.isLoading = true;
+    obj.Enabled = true;
+    this.deletedRoute.ID = obj.ID;
+    this.deletedRoute.RoleFrom = obj.RoleFrom;
+    this.deletedRoute.RoleTo = obj.RoleTo;
+    this.deletedRoute.Action = obj.Action;
+    this.deletedRoute.WFStatusToID = obj.WFStatusToID;
+    this.deletedRoute.Enabled = obj.Enabled;
+    this.deletedRoute.UserCreated = obj.UserCreated;
+    this.deletedRoute.UserUpdated ="Praxis";
+    this.deletedRoute.DateCreated = obj.DateCreated
+    this.deletedRoute.DateUpdated = new Date();
+    this.routeservice.update(this.deletedRoute).subscribe(result =>{
+     this.deletedRoute = result;
+     this.isLoading = true;
+     this.dialogService.addDialog(AlertComponent, { title: 'Enable route', message: `Route ${obj.RoleFromName} enabled.`, bold: `${obj.RoleFromName}` });                        
+     this.onNo();
+     this.getRoutes();
+     this.isLoading = false;
+    },error =>{
+      error = error.json();
+        this.dialogService.addDialog(ErrorComponent, { title: 'Enable route', message: `Route ${obj.RoleFromName } was not enabled.`, statuscode: error.Status, url: error.Uri, servermessage: error.Message }); 
+        this.isLoading = false;
+    });
+ 
+
+  }
+
   onNo() {
     this.isRemove = false;
     this.onChangeHeandig();

@@ -7,6 +7,8 @@ import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators  }
 import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 import { CommonModule, DatePipe, CurrencyPipe  } from "@angular/common";
 import { NgxPaginationModule } from 'ngx-pagination';
+import { UiSwitchModule } from 'ngx-toggle-switch/src';
+
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -125,6 +127,7 @@ import { WorkflowRouteactionsService } from './services/workflow-routeactions.se
       BootstrapModalModule,
       NgxPaginationModule,
       LoadingModule,
+      UiSwitchModule,
 
     RouterModule.forRoot([
         { path: '', redirectTo: 'home', pathMatch: 'full' },        

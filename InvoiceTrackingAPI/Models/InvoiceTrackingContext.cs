@@ -16,6 +16,7 @@ namespace InvoiceTrackingAPI.Models
         public virtual DbSet<ITS_DocumentType> ITS_DocumentType { get; set; }
         public virtual DbSet<ITS_DocumentTypeInvoiceCategoriesLinks> ITS_DocumentTypeInvoiceCategoriesLinks { get; set; }
         public virtual DbSet<ITS_InvoiceCategories> ITS_InvoiceCategories { get; set; }
+        public virtual DbSet<ITS_Navigation> ITS_Navigation { get; set; }
         public virtual DbSet<ITS_Notes> ITS_Notes { get; set; }
         public virtual DbSet<ITS_POType> ITS_POType { get; set; }
         public virtual DbSet<ITS_POTypeDocTypeLink> ITS_POTypeDocTypeLink { get; set; }
@@ -121,6 +122,35 @@ namespace InvoiceTrackingAPI.Models
                 .WithRequired(e => e.ITS_InvoiceCategories)
                 .HasForeignKey(e => e.InvoiceCategoryID)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ITS_Navigation>()
+                .Property(e => e.Name)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<ITS_Navigation>()
+                .Property(e => e.Path)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<ITS_Navigation>()
+                .Property(e => e.Component)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<ITS_Navigation>()
+                .Property(e => e.Icon)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<ITS_Navigation>()
+                .Property(e => e.UserCreated)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<ITS_Navigation>()
+                .Property(e => e.UserUpdated)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<ITS_Navigation>()
+                .HasMany(e => e.ITS_Navigation1)
+                .WithOptional(e => e.ITS_Navigation2)
+                .HasForeignKey(e => e.ParentID);
 
             modelBuilder.Entity<ITS_Notes>()
                 .Property(e => e.UserCreated)

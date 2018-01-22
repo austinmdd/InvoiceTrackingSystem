@@ -10,9 +10,9 @@ namespace InvoiceTrackingAPI.DTO.Workflow
     {
         public int ID { get; set; }
 
-        public Guid WFStatusID { get; set; }
+        public int? StatusCode { get; set; }
 
-      
+
         public string WorkflowStatus { get; set; }
 
     
@@ -30,7 +30,7 @@ namespace InvoiceTrackingAPI.DTO.Workflow
         public WorkflowStatusDTO(ITS_WF_Status workflowstatus)
         {
             ID = workflowstatus.ID;
-            WFStatusID = workflowstatus.WFStatusID;
+            StatusCode = workflowstatus.StatusCode;
             WorkflowStatus = workflowstatus.WorkflowStatus;
             Description = workflowstatus.Description;
             UserCreated = workflowstatus.UserCreated;

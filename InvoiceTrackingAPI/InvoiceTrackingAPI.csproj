@@ -238,6 +238,7 @@
     <Compile Include="Models\ITS_DocumentType.cs" />
     <Compile Include="Models\ITS_DocumentTypeInvoiceCategoriesLinks.cs" />
     <Compile Include="Models\ITS_InvoiceCategories.cs" />
+    <Compile Include="Models\ITS_Navigation.cs" />
     <Compile Include="Models\ITS_Notes.cs" />
     <Compile Include="Models\ITS_POType.cs" />
     <Compile Include="Models\ITS_POTypeDocTypeLink.cs" />

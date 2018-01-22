@@ -1,4 +1,150 @@
 <div class="container-fluid">
+    <div class="col-md-12" *ngIf="isLoading">          
+      <app-busy [message]="message"></app-busy>
+    </div>
+    <div class="row">    
+      <div class="breadcrumb col-md-12" style="margin-top:30px;">
+        <h5 class="card-title" style="vertical-align:middle;"><strong>{{lblHeading}}</strong> </h5>
+      </div>
+      </div>
+      <div class="row">
+          <div class="col-md-12" *ngIf="!isRemove">
+        
+              <div class="col-md-12" style="margin-bottom:5px;margin-top:5px">
+                <table class="filters-table" style="width:100%">
+                  <tr>
+                    <td>
+                      Search Route
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <input class="form-control input-sm" [(ngModel)]="searchText" type="text" />
+                    </td>
+                    <td>
+                      <button class="btn btn-primary"  (click)="SearchRoute()"><i class="fa fa-search"></i></button>
+                      <button type="button" class="btn btn-success"><i class="fa fa-undo" aria-hidden="true" (click)="resetForm()"></i></button>
+                    </td>
+                    <td>
+                        
+                    </td>
+                    
+                 
+            
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <div *ngIf="isRemove" class="text-danger col-md-12">
+                <input type="hidden" [(ngModel)]="removeRoute" name="supplier.SupplierId" /> Are you sure you want to delete route <strong> {{removeRoute.RoleFromName}} </strong>?
+                <button class="btn btn-danger btn-sm" (click)="onDelete(removeRoute)" style="width:80px;">Yes</button>
+                <button class="btn btn-default btn-sm" (click)="onNo()" style="width:80px;">No</button>
+              </div>
+            <div class="col-md-12" *ngIf="IsSearchDataFound">
+                <table border="0" style="margin:20px auto;width:94%;" class="table table-sm">
+                  <thead class="th-head" style="">
+                    <tr style="height:30px;">
+                      <th style="vertical-align:middle;width:30%">
+                        <span>Role From </span><i style="vertical-align:middle;" class="fa fa-2x" [ngClass]="{'fa-sort-asc': (!direction),'fa-sort-desc': (direction) }"
+                                                      aria-hidden="true" (click)="onSort()"></i>
+                      </th>
+                      <th style="vertical-align:middle;">Role To</th>
+                      <th style="vertical-align:middle;">Action</th>
+                      <th style="vertical-align:middle;">Workflow Status</th>
+                      <th style="vertical-align:middle;">Enabled</th>
+                     <th style="background:white;border:none;">
+                          <a [routerLink]="['/routes/add']">
+                            <span class=" btn-add btn btn-primary btn-sm"><i class="fa fa-plus fa-2x" aria-hidden="true"></i></span>
+                          </a>
+                       </th>
+                    </tr>
+                  </thead>
+                  <tr *ngFor="let rut of searchResults  | orderBy: criteria : direction | paginate: { itemsPerPage: pageSize, currentPage: page}">
+                      <td>{{rut.RoleFromName}}</td>
+                      <td>{{rut.RoleToName}}</td>
+                      <td>{{rut.RouteName}}</td>
+                      <td>{{rut.Description}} </td>
+                      <td>{{rut.Enabled}} </td>
+                      <td *ngIf="rut.Enabled"> <ui-switch labelOn="Yes" (click)="enabledClicked(rut)" checked  ></ui-switch></td>
+                      <td *ngIf="!rut.Enabled"> <ui-switch defaultBgColor="firebrick" labelOff="No"(click)="disabledClicked(rut)" [checked]="false"  ></ui-switch></td>
+                      <td class="text-right" style="width:90px;">
+                      <a [routerLink]="['/routes/edit',rut.ID]"><span class="btn btn-success btn-sm"><i class="fa fa-pencil fa-fw"></i></span></a>
+                     <!-- <span class="btn btn-danger btn-sm" (click)="onConfirm(rut)"><i class="fa fa-trash-o fa-fw"></i></span>-->
+                    </td>
+                  </tr>
+                  <tr *ngIf="searchResults.length > 4">
+                    <td colspan="2">
+                      <pagination-controls (pageChange)="page = $event" style="margin:0px;padding:0px;" (click)="onNext(page)"></pagination-controls>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+
+        <div class="col-md-12" *ngIf="!IsSearchDataFound">
+          <table border="0" style="margin:20px auto;width:94%;" class="table table-sm">
+            <thead class="th-head" >
+              <tr style="height:30px;">
+                <th style="vertical-align:middle;width:30%">
+                  <span>Role From  </span><i style="vertical-align:middle;" class="fa fa-2x" [ngClass]="{'fa-sort-asc': (!direction),'fa-sort-desc': (direction) }"
+                                                aria-hidden="true" (click)="onSort()"></i>
+                </th>
+                <th style="vertical-align:middle;">Role To</th>
+                <th style="vertical-align:middle;">Action</th>
+                <th style="vertical-align:middle;">Workflow Status</th>
+                <th style="vertical-align:middle;">Enabled</th>
+                <th style="background:white;border:none;">
+                  <a [routerLink]="['/routes/add']">
+                      <span class=" btn-add btn btn-primary btn-sm"><i class="fa fa-plus fa-2x" aria-hidden="true"></i></span>
+                    </a>
+                 </th>
+              </tr>
+            </thead>
+            <tr *ngFor="let routes of allRoutes | orderBy: criteria : direction | paginate: { itemsPerPage: pageSize, currentPage: page}">
+              <td>{{routes.RoleFromName}}</td>
+              <td>{{routes.RoleToName}}</td>
+              <td>{{routes.RouteName}}</td> 
+              <td>{{routes.Description}} </td>
+              <!--<td *ngIf="isSwitchon"> <ui-switch labelOn>{{routes.Enabled}}</ui-switch></td>-->
+              <!--<td>{{routes.Enabled}} </td> labelOff="No"-->
+         <td *ngIf="routes.Enabled"> <ui-switch labelOn="Yes" (click)="enabledClicked(routes)" checked  ></ui-switch></td>
+         <td *ngIf="!routes.Enabled"> <ui-switch defaultBgColor="firebrick" labelOff="No"(click)="disabledClicked(routes)" [checked]="false"  ></ui-switch></td>
+          
+             
+
+
+              <td class="text-right" style="width:45px;">
+              <a [routerLink]="['/routes/edit',routes.ID]"><span class="btn btn-success btn-sm"><i class="fa fa-pencil fa-fw"></i></span></a>
+                <!--<span class="btn btn-danger btn-sm" (click)="onConfirm(routes)"><i class="fa fa-trash-o fa-fw"></i></span>-->
+                <span></span>
+              </td>
+            </tr>
+            <tr *ngIf="allRoutes.length > 4">
+              <td colspan="2">
+                <pagination-controls (pageChange)="page = $event" style="margin:0px;padding:0px;" (click)="onNext(page)"></pagination-controls>
+              </td>
+            </tr>
+          </table>
+        </div>
+         </div>
+        </div> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<div class="container-fluid">
   <div class="col-md-12" *ngIf="isLoading">          
     <app-busy [message]="message"></app-busy>
   </div>
@@ -154,7 +300,7 @@
 
   
     
-  </div>
+  </div> -->
 
 
 

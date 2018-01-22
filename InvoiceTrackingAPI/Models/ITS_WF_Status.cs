@@ -17,7 +17,7 @@ namespace InvoiceTrackingAPI.Models
 
         public int ID { get; set; }
 
-        public Guid WFStatusID { get; set; }
+        public int? StatusCode { get; set; }
 
         [Required]
         [StringLength(50)]
@@ -36,6 +36,8 @@ namespace InvoiceTrackingAPI.Models
         public DateTime DateCreated { get; set; }
 
         public DateTime DateUpdated { get; set; }
+
+        public bool? IsDeleted { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ITS_WF_Process> ITS_WF_Process { get; set; }

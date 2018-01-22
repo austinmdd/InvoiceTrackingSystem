@@ -46,7 +46,7 @@ export class RulesComponent implements OnInit {
     },error => {
       this.isLoading = false;
       error = error.json();
-      this.dialogService.addDialog(ErrorComponent, { title: 'No rules Found', message: `No rules Found `, statuscode: error.Status, url: error.Uri, servermessage: error.Message });
+      this.dialogService.addDialog(ErrorComponent, { title: 'No Compliance Checklist Found', message: `No Compliance Checklist Found `, statuscode: error.Status, url: error.Uri, servermessage: error.Message });
     })
 
   }
@@ -56,20 +56,20 @@ export class RulesComponent implements OnInit {
     this.rulerolelink = result;
     console.log(this.rulerolelink);
     if (this.rulerolelink.Deletable == false ){
-      this.dialogService.addDialog(AlertComponent, { title: 'Delete Rule', message: `Rule ${this.removeRule.ChecklistName} can't be deleted due to referential integrity`, bold: `${this.removeRule.ChecklistName}` });
+      this.dialogService.addDialog(AlertComponent, { title: 'Delete Compliance Checklist', message: `Compliance Checklist ${this.removeRule.ChecklistName} can't be deleted because it is linked to a role`, bold: `${this.removeRule.ChecklistName}` });
       this.onNo();
        this.getAllRules();
        this.isLoading = false;
       }
    if(this.rulerolelink.Deletable == true){
     this.ruleservice.delete(id).subscribe(result => {
-    this.dialogService.addDialog(AlertComponent, { title: 'Delete rule', message: `Rule ${this.removeRule.ChecklistName} deleted.`, bold: `${this.removeRule.ChecklistName}` });                        
+    this.dialogService.addDialog(AlertComponent, { title: 'Delete Compliance Checklist', message: `Compliance Checklist ${this.removeRule.ChecklistName} deleted.`, bold: `${this.removeRule.ChecklistName}` });                        
     this.onNo();
     this.getAllRules();
     this.isLoading = false;
   }, error => {
       error = error.json();
-      this.dialogService.addDialog(ErrorComponent, { title: 'Delete rule', message: `Rule ${this.removeRule.ChecklistName} was not deleted.`, statuscode: error.Status, url: error.Uri, servermessage: error.Message }); 
+      this.dialogService.addDialog(ErrorComponent, { title: 'Delete Compliance Checklist', message: `Compliance Checklist ${this.removeRule.ChecklistName} was not deleted.`, statuscode: error.Status, url: error.Uri, servermessage: error.Message }); 
       this.isLoading = false;
       });
 
@@ -85,7 +85,7 @@ export class RulesComponent implements OnInit {
       //console.log(this.searchResults);
      }, error =>{
       error = error.json();
-      this.dialogService.addDialog(ErrorComponent, { title: 'Search error', message: `Could not find rule`, statuscode: error.Status, url: error.Uri, servermessage: error.Message }); 
+      this.dialogService.addDialog(ErrorComponent, { title: 'Search error', message: `Could not find Compliance Checklist`, statuscode: error.Status, url: error.Uri, servermessage: error.Message }); 
       this.isLoading = false;
      });
 
