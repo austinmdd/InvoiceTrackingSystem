@@ -103,7 +103,7 @@ import { WorkflowRouteactionsService } from './services/workflow-routeactions.se
         BusyComponent,
         UpdateInvoiceComponent,
         ViewerComponent,
-        //Currency
+        //Currency components
         CurrencyFormat,
         DoctypeLinksComponent,
         ListInvoicesComponent,
